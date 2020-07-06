@@ -4,7 +4,7 @@
 Basic script.
 Functions 'setup' and 'evaluatePixel' are key functions in sentinel-hub custom scripts.
   - 'setup' enables to grab all needed bands.
-' - 'evaluatePixel' can be seen as the main function, where all the processing is done.
+  - 'evaluatePixel' can be seen as the main function, where all the processing is done.
 */
 function setup() {
   return {
