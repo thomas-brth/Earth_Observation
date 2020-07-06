@@ -1,13 +1,25 @@
 //VERSION=3
-/*BARREN SOILS
-  Sentinel 2
-*/
 
-
-function evaluatePixel(s) {
-    let val = 2.5 * ((s[0].B11 + s[0].B04)-(s[0].B08 + s[0].B02))/((s[0].B11 + s[0].B04)+(s[0].B08 + s[0].B02));
-    return [2.5* val, s[0].B08, s[0].B04];
+function setup() {
+  return {
+    input: ["B02","B03","B04","B08", "dataMask"],
+    output: { bands: 4 }
+  };
 }
-function setup(ds) {
-   setInputComponents([ds.B02, ds.B04, ds.B08, ds.B11, ds.B12]);
-   setOutputComponentCount(3); }
+
+function get_rgb(sample) {
+  return [2.9 * sample.B04, 3.1 * sample.B03, 3.0 * sample.B02, sample.dataMask];
+}
+
+function get_fir(sample) {
+  return [2.5 * sample.B08, 2.5 * sample.B04, 2.5 * sample.B03, sample.dataMask];
+}
+
+function evaluatePixel(sample) {
+  var NDVI = index(sample.B08, sample.B04);
+  if (NDVI > 0.5) {
+    return get_fir(sample);
+  } else {
+    return get_rgb(sample);
+  }
+}
