@@ -27,6 +27,6 @@ function evaluatePixel(sample) {
   if (ndvi_mask) {
   	return get_fir(sample, (ndvi_mask) * sample.dataMask);
   } else {
-    return get_rgb(sample, (ndvi_mask) * sample.dataMask);
+    return get_rgb(sample, (!ndvi_mask) * sample.dataMask);
   }
 }
