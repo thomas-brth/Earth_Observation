@@ -7,19 +7,20 @@ function setup() {
   };
 }
 
-function get_rgb(sample) {
-  return [2.9 * sample.B04, 3.1 * sample.B03, 3.0 * sample.B02, sample.dataMask];
+function get_rgb(sample, mask) {
+  return [2.9 * sample.B04, 3.1 * sample.B03, 3.0 * sample.B02, mask];
 }
 
-function get_fir(sample) {
-  return [2.5 * sample.B08, 2.5 * sample.B04, 2.5 * sample.B03, sample.dataMask];
+function get_fir(sample, mask) {
+  return [2.5 * sample.B08, 2.5 * sample.B04, 2.5 * sample.B03, mask];
 }
 
 function evaluatePixel(sample) {
   var NDVI = index(sample.B08, sample.B04);
-  if (NDVI > 0.5) {
-    return get_fir(sample);
+  var ndvi_mask = NDVI >= 0.7
+  if (ndvi_mask) {
+  	return get_fir(sample, (ndvi_mask) * sample.dataMask);
   } else {
-    return get_rgb(sample);
+    return get_rgb(sample, (ndvi_mask) * sample.dataMask);
   }
 }
