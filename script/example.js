@@ -1,5 +1,11 @@
 //VERSION=3
 
+/*
+Basic script.
+Functions 'setup' and 'evaluatePixel' are key functions in sentinel-hub custom scripts.
+  - 'setup' enables to grab all needed bands.
+' - 'evaluatePixel' can be seen as the main function, where all the processing is done.
+*/
 function setup() {
   return {
     input: ["B02","B03","B04","B08", "dataMask"],
@@ -17,7 +23,7 @@ function get_fir(sample, mask) {
 
 function evaluatePixel(sample) {
   var NDVI = index(sample.B08, sample.B04);
-  var ndvi_mask = NDVI >= 0.7
+  var ndvi_mask = NDVI >= 0.7;
   if (ndvi_mask) {
   	return get_fir(sample, (ndvi_mask) * sample.dataMask);
   } else {
