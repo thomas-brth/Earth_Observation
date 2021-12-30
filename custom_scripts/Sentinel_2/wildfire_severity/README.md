@@ -1,0 +1,1 @@
+# Wildfire severity assessment based on burned area categorization
